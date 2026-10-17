@@ -1,0 +1,27 @@
+# ============================================================================
+# MD Workflow Manager —— Rocky Linux 9.2 可复现构建（Docker）
+#
+# 在任何装有 Docker 的机器上执行（无需 Rocky 物理机）:
+#   docker build -f Dockerfile.rocky92 -t mdwf-build .
+#   docker run --rm -v "$PWD/dist-linux:/out" mdwf-build
+#
+# 产物: dist-linux/MDWorkflowManager （可在 Rocky 9.2 / glibc >= 2.34 直接运行）
+# ============================================================================
+FROM rockylinux:9.2
+
+RUN dnf -y install python3 python3-pip python3-tkinter gcc make \
+    && dnf clean all \
+    && pip3 install --no-cache-dir pyinstaller
+
+WORKDIR /src
+COPY . .
+
+# 渲染图标 + 打包（在 9.2 环境内编译，保证 glibc 兼容）
+RUN python3 make_icon.py \
+    && python3 -m PyInstaller --noconfirm --clean --onefile \
+       --add-data "md_icon_64.ppm:." \
+       --name MDWorkflowManager main.py \
+    && ./dist/MDWorkflowManager --selftest || true
+
+# 输出到挂载目录
+CMD ["sh", "-c", "mkdir -p /out && cp dist/MDWorkflowManager /out/ && echo '产物: /out/MDWorkflowManager'"]

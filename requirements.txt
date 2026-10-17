@@ -1,0 +1,7 @@
+# MD Workflow Manager 依赖
+# 界面框架：CustomTkinter（现代外观 + Windows DPI 感知；自带 Tkinter 依赖）
+# 注意：Python 3.8 请固定使用 customtkinter 6.0.0（已验证兼容）
+customtkinter==6.0.0
+
+# 运行环境：Python 3.8+（Windows / Linux / macOS）
+# 运行 MD 模拟还需安装 GROMACS，并确保 gmx 命令已加入 PATH。

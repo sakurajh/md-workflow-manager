@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# PyInstaller 打包中间产物
+build/
+dist/
+dist-linux/
+
+# 历史版本备份
+backup/
+
+# 运行 / 自测产物
+*.log
+mdwf_selftest_report.txt
+
+# 系统杂项
+Thumbs.db
+Desktop.ini
